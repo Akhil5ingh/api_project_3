@@ -11,4 +11,4 @@ const Counter = mongoose.model('Counter', {
     }
 });
 
-module.e
+module.exports = {Counter};

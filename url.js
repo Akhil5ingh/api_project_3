@@ -8,12 +8,6 @@ const UrlSchema = new mongoose.Schema({
       minlength: 1,
       trim: true,
       uniqie: true
-      /*validate:{
-         validator: function() {
-           let url = this
-         },
-        message: '{VALUE} is not a valid URL'
-      }*/
     },
     index: {
       type: Number,
