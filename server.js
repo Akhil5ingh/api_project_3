@@ -4,8 +4,8 @@ var express = require('express');
 var mongo = require('mongodb');
 var mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-const Url = require('./url.js');
-const Counter = require('./counter.js');
+const {Url} = require('./url.js');
+const {Counter} = require('./counter.js');
 var cors = require('cors');
 
 var app = express();
@@ -26,6 +26,28 @@ app.get('/', function(req, res){
   res.sendFile(process.cwd() + '/views/index.html');
 });
 
+const saveCounter = (count) => {
+  // create counter
+   let counter = {
+     countOf: 'url',
+     count
+   };
+  // save counter
+   Counter.save(counter).then((c) => {
+    console.log('Counter saved');
+  }).catch((e) => {
+
+  });
+}
+
+const updateCounter = (count, callback) => {
+   Counter.findOneAndUpdate({countOf: 'url'}, {count}).then((c) => {
+    console.log('Counter saved');
+     callback();
+  }).catch((e) => {
+    console.log('Error:',e);
+  });
+}
 
 app.post('/api/shorturl/new', (req, res) => {
   let original_url = req.body.original_url;
@@ -35,35 +57,34 @@ app.post('/api/shorturl/new', (req, res) => {
   // get url count
   Counter.find({countOf: 'url'}).then((docs) => {
         let count = docs.length;
+        count++;
+    
+        // create new URL
         let url = new Url({
           original_url,
           short_url: count
+        });
+    
+        // save new URL
+        Url.save(url).then((url) => {
+          // update counter and return url object
+          updateCounter(count, () => {            
+            res.send(url);
+          });
+        }).catch((e) => {
+          res.status(400).send(e);
         });
       
     }).catch((e) => {
         res.status(400).send(e);
     });
-  
-  let url = new Url({
-      original_url,
-  });
 
-  // save new todo
-  /*Url.save().then((doc) => {
-      res.send(doc);
-  }).catch((e) => {
-      res.status(400).send(e);
-  });*/
-  
-  
-  /*res.send({
-    original_url,
-    short_url
-  });  */
 });
 
 app.get('/api/urls', (req, res) => {
-  //res.send({urls, length: urls.length});
+  Url.find().then((docs) => { 
+    res.send({docs});
+  }).cathc((e) => res.status(400).send(e));
 });
 
 
