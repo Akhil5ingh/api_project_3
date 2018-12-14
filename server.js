@@ -4,9 +4,10 @@ var express = require('express');
 var mongo = require('mongodb');
 var mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+var cors = require('cors');
+
 const {Url} = require('./url.js');
 const {Counter} = require('./counter.js');
-var cors = require('cors');
 
 var app = express();
 
