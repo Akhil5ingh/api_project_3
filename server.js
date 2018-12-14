@@ -30,16 +30,20 @@ app.get('/', function(req, res){
 });
 
 app.post('/api/shorturl/new', (req, res) => {
-  let URL = req.body.url;
+  let URL = req.body.original_url;
   
+  res.send(req.body);
   // check if URL is valid
   
   let index = urls.push(URL);
   res.send({
     original_url: URL,
     short_url: index
-  });
-  
+  });  
+});
+
+app.get('/api/urls', (req, res) => {
+  res.send({urls, length: urls.length});
 });
 
 
