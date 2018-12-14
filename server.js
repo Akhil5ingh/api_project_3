@@ -14,20 +14,18 @@ var port = process.env.PORT || 3000;
 const urls = [];
 
 /** this project needs a db !! **/ 
-// mongoose.connect(process.env.MONGOLAB_URI);
+mongoose.connect(process.env.MONGOLAB_URI);
 
 app.use(cors());
-
-app.use(bodyParser.json());
-
-/** this project needs to parse POST bodies **/
-// you should mount the body-parser here
-
+app.use(bodyParser.urlencoded({'extended': false}));
 app.use('/public', express.static(process.cwd() + '/public'));
+
+
 
 app.get('/', function(req, res){
   res.sendFile(process.cwd() + '/views/index.html');
 });
+
 
 app.post('/api/shorturl/new', (req, res) => {
   let URL = req.body.original_url;
@@ -45,6 +43,7 @@ app.post('/api/shorturl/new', (req, res) => {
 app.get('/api/urls', (req, res) => {
   res.send({urls, length: urls.length});
 });
+
 
 
 app.listen(port, function () {
