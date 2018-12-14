@@ -84,7 +84,7 @@ app.post('/api/shorturl/new', (req, res) => {
 app.get('/api/urls', (req, res) => {
   Url.find().then((docs) => { 
     res.send({docs});
-  }).cathc((e) => res.status(400).send(e));
+  }).catch((e) => res.status(400).send(e));
 });
 
 

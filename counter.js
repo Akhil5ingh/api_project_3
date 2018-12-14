@@ -14,5 +14,5 @@ const counterSchema = new mongoose.Schema({
 });
 
 
-const Url = mongoose.model('Counter', counterSchema);
-module.exports = {Url}
+const Counter = mongoose.model('Counter', counterSchema);
+module.exports = {Counter}
