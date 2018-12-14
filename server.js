@@ -10,6 +10,7 @@ var app = express();
 
 // Basic Configuration 
 var port = process.env.PORT || 3000;
+const urls = [];
 
 /** this project needs a db !! **/ 
 // mongoose.connect(process.env.MONGOLAB_URI);
@@ -25,10 +26,18 @@ app.get('/', function(req, res){
   res.sendFile(process.cwd() + '/views/index.html');
 });
 
+app.post('/api/shorturl/new', (req, res) => {
+  let URL = req.body;
+  res.send({body: req.body})
   
-// your first API endpoint... 
-app.get("/api/hello", function (req, res) {
-  res.json({greeting: 'hello API'});
+  // check if URL is valid
+  
+  let index = urls.push(URL);
+  req.send({
+    original_url: URL,
+    short_url: index
+  });
+  
 });
 
 
