@@ -5,6 +5,7 @@ var mongo = require('mongodb');
 var mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const Url = require('./url.js');
+const Counter = require('./counter.js');
 var cors = require('cors');
 
 var app = express();
@@ -32,9 +33,16 @@ app.post('/api/shorturl/new', (req, res) => {
   // check if URL is valid
 
   // get url count
-  Url.countDocuments((err, count) => {
-    res.send({count});
-  });
+  Counter.find({countOf: 'url'}).then((docs) => {
+        let count = docs.length;
+        let url = new Url({
+          original_url,
+          short_url: count
+        });
+      
+    }).catch((e) => {
+        res.status(400).send(e);
+    });
   
   let url = new Url({
       original_url,
