@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const dns = require('dns');
 
 const UrlSchema = new mongoose.Schema({
     original_url:{
@@ -6,10 +7,18 @@ const UrlSchema = new mongoose.Schema({
       required: true,
       minlength: 1,
       trim: true,
-      uniqie: true,
-      validate:{
-         validator: 
-      }
+      uniqie: true
+      /*validate:{
+         validator: function() {
+           let url = this
+         },
+        message: '{VALUE} is not a valid URL'
+      }*/
+    },
+    index: {
+      type: Number,
+      required: true,
+      unique: true
     }
 });
 
