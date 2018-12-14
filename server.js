@@ -5,7 +5,6 @@ var mongo = require('mongodb');
 var mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const Url = require('./url.js');
-const Counter = require('counter.js');
 var cors = require('cors');
 
 var app = express();
@@ -32,22 +31,27 @@ app.post('/api/shorturl/new', (req, res) => {
   
   // check if URL is valid
 
+  // get url count
+  Url.countDocuments((err, count) => {
+    res.send({count});
+  });
+  
   let url = new Url({
       original_url,
   });
 
   // save new todo
-  todo.save().then((doc) => {
+  /*Url.save().then((doc) => {
       res.send(doc);
   }).catch((e) => {
       res.status(400).send(e);
-  });
+  });*/
   
   
-  res.send({
+  /*res.send({
     original_url,
     short_url
-  });  
+  });  */
 });
 
 app.get('/api/urls', (req, res) => {
