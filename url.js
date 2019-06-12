@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const dns = require('dns');
 
 const UrlSchema = new mongoose.Schema({
     original_url:{
@@ -9,7 +8,7 @@ const UrlSchema = new mongoose.Schema({
       trim: true,
       uniqie: true
     },
-    index: {
+    short_url: {
       type: Number,
       required: true,
       unique: true
